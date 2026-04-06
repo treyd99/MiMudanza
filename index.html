@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventario Mudanza</title>
+  <div class="buscar-caja">
+      <input type="text" id="busqueda" placeholder="Buscar objeto..." oninput="buscarObjeto()">
+        <button onclick="buscarObjeto()">🔎</button>
+  </div>
+ 
+  <div id="resultadosBusqueda"></div>
+
+  </div>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <h1>📦 Inventario de Cajas</h1>
+
+  <!-- Formulario para crear caja -->
+  <input type="text" id="nombreCaja" placeholder="Nombre de la caja">
+  <button onclick="crearCaja()">Agregar Caja</button>
+
+  
+
+  <!-- Lista de cajas -->
+  <div id="listaCajas"></div>
+  <div id="detalleCaja"></div>
+
+  <script src="app.js"></script>
+
+  </div>
+</body>
+</html>
