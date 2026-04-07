@@ -1,23 +1,15 @@
 let cajas = JSON.parse(localStorage.getItem("cajas")) || [];
+let cajaSeleccionada = null;
 
 function guardarDatos() {
   localStorage.setItem("cajas", JSON.stringify(cajas));
 }
 
-
 function crearCaja() {
   const input = document.getElementById("nombreCaja");
-  const nombre = input.value;
+  if (!input.value) return;
 
-  if (nombre === "") return;
-
-  const nuevaCaja = {
-    nombre: nombre,
-    objetos: [],
-    desempacada: false
-  };
-
-  cajas.push(nuevaCaja);
+  cajas.push({ nombre: input.value, objetos: [], desempacada: false });
   input.value = "";
 
   guardarDatos();
@@ -31,22 +23,18 @@ function renderizarCajas() {
   cajas.forEach((caja, index) => {
     const activa = cajaSeleccionada === index;
 
-    const preview = caja.objetos.slice(0, 3).join(", ");
-
     contenedor.innerHTML += `
-      <div class="caja" style="background: ${activa ? '#e6f7ff' : 'white'}">
-        <h3>📦 ${caja.nombre}</h3>
+      <div class="caja ${caja.desempacada ? 'desempacada' : ''}"><div class="contenido">
+      <h3 onclick="verCaja(${index})">📦 ${caja.nombre}</h3>
+    </div>
 
-        <div>
-          <button title="Ver" onclick="verCaja(${index})">
-            ${activa ? "🔽" : "▶️"}
-          </button>
-          <button title="Eliminar" onclick="eliminarCaja(${index})">🗑️</button>
-        </div>
+    <div class="botones">
+      <button onclick="verCaja(${index})">${activa ? "🔽" : "▶️"}</button>
+      <button onclick="eliminarCaja(${index})">🗑️</button>
+    </div>
 
-        ${preview ? `<small>${preview}${caja.objetos.length > 3 ? '...' : ''}</small>` : ''}
-      </div>
-    `;
+  </div>
+`;
   });
 }
 
@@ -67,45 +55,37 @@ function renderizarDetalleCaja() {
       ${caja.desempacada ? "Marcar pendiente" : "Desempacada"}
     </button>
 
-    <button onclick="eliminarCaja(${cajaSeleccionada})">
-      🗑️ Eliminar
-    </button>
-
     <br><br>
 
-    <input type="text" id="objetoDetalle" placeholder="Agregar objeto">
+    <input id="objetoDetalle" placeholder="Agregar objeto">
     <button onclick="agregarObjetoDetalle()">Agregar</button>
 
     <ul>
-      ${caja.objetos.map(obj => `<li>${obj}</li>`).join("")}
+      ${caja.objetos.map(o => `<li>${o}</li>`).join("")}
     </ul>
   `;
 }
 
 function agregarObjetoDetalle() {
   const input = document.getElementById("objetoDetalle");
-  const nombre = input.value;
+  if (!input.value) return;
 
-  if (nombre === "") return;
-
-  cajas[cajaSeleccionada].objetos.push(nombre);
+  cajas[cajaSeleccionada].objetos.push(input.value);
   input.value = "";
 
   guardarDatos();
   renderizarDetalleCaja();
 }
 
-function agregarObjeto(index) {
-  const input = document.getElementById(`objeto-${index}`);
-  const nombre = input.value;
+function eliminarCaja(index) {
+  if (!confirm("¿Eliminar caja?")) return;
 
-  if (nombre === "") return;
-
-  cajas[index].objetos.push(nombre);
-  input.value = "";
+  cajas.splice(index, 1);
+  cajaSeleccionada = null;
 
   guardarDatos();
   renderizarCajas();
+  renderizarDetalleCaja();
 }
 
 function toggleDesempacada(index) {
@@ -113,65 +93,38 @@ function toggleDesempacada(index) {
 
   guardarDatos();
   renderizarCajas();
+  renderizarDetalleCaja();
 }
 
-function eliminarCaja(index) {
-  console.log("Eliminar caja:", index);
+function verCaja(index) {
+  cajaSeleccionada = cajaSeleccionada === index ? null : index;
 
-  const confirmar = confirm("¿Seguro que quieres eliminar esta caja?");
-  if (!confirmar) return;
-
-  cajas.splice(index, 1);
-
-  guardarDatos();
   renderizarCajas();
+  renderizarDetalleCaja();
 }
-
 
 function buscarObjeto() {
   const texto = document.getElementById("busqueda").value.toLowerCase();
-  const resultadosDiv = document.getElementById("resultadosBusqueda");
+  const resultados = document.getElementById("resultadosBusqueda");
 
-  resultadosDiv.innerHTML = "";
+  if (!texto) {
+    resultados.innerHTML = "";
+    return;
+  }
 
-  if (texto === "") return;
+  let encontrados = [];
 
-  let resultados = [];
-
-  cajas.forEach((caja) => {
-    caja.objetos.forEach((objeto) => {
-      if (objeto.toLowerCase().includes(texto)) {
-        resultados.push({
-          objeto: objeto,
-          caja: caja.nombre
-        });
+  cajas.forEach(caja => {
+    caja.objetos.forEach(obj => {
+      if (obj.toLowerCase().includes(texto)) {
+        encontrados.push(`🔎 ${obj} → ${caja.nombre}`);
       }
     });
   });
 
-  if (resultados.length === 0) {
-    resultadosDiv.innerHTML = "<p>No se encontraron resultados</p>";
-    return;
-  }
-
-  resultadosDiv.innerHTML = resultados
-    .map(r => `<p>🔎 ${r.objeto} → ${r.caja}</p>`)
-    .join("");
-}
-
-let cajaSeleccionada = null;
-
-function verCaja(index) {
-  if (cajaSeleccionada === index) {
-    // Si ya está abierta, la cerramos
-    cajaSeleccionada = null;
-  } else {
-    // Si no, abrimos esa caja
-    cajaSeleccionada = index;
-  }
-
-  renderizarCajas();
-  renderizarDetalleCaja();
+  resultados.innerHTML = encontrados.length
+    ? encontrados.map(e => `<p>${e}</p>`).join("")
+    : "<p>No encontrado</p>";
 }
 
 renderizarCajas();

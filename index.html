@@ -1,17 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
   <meta charset="UTF-8">
   <title>Inventario Mudanza</title>
-  <div class="buscar-caja">
-      <input type="text" id="busqueda" placeholder="Buscar objeto..." oninput="buscarObjeto()">
-        <button onclick="buscarObjeto()">🔎</button>
-  </div>
- 
-  <div id="resultadosBusqueda"></div>
-
-  </div>
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,18 +11,22 @@
 
   <h1>📦 Inventario de Cajas</h1>
 
-  <!-- Formulario para crear caja -->
-  <input type="text" id="nombreCaja" placeholder="Nombre de la caja">
-  <button onclick="crearCaja()">Agregar Caja</button>
+  <div class="buscar-caja">
+    <input type="text" id="busqueda" placeholder="Buscar objeto..." oninput="buscarObjeto()">
+    <button onclick="buscarObjeto()">🔎</button>
+  </div>
 
-  
+  <div id="resultadosBusqueda"></div>
 
-  <!-- Lista de cajas -->
+  <div class="agregar-caja">
+    <input type="text" id="nombreCaja" placeholder="Nombre de la caja">
+    <button onclick="crearCaja()">➕</button>
+  </div>
+
   <div id="listaCajas"></div>
   <div id="detalleCaja"></div>
 
-  <script src="app.js"></script>
-
-  </div>
+</div>
+<script src="app.js"></script>
 </body>
 </html>

@@ -1,141 +1,97 @@
-/* Reset y fuente */
-body {
-  font-family: 'Arial', sans-serif;
-  background: #f0f2f5;
-  margin: 0;
-  padding: 20px;
-}
-
-/* Contenedor general */
-#app {
-  max-width: 480px; /* estilo móvil */
-  margin: 0 auto;
-}
-
-/* Cards de cajas */
-.caja {
-  background: white;
-  border-radius: 15px;
-  padding: 15px;
-  margin-top: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.caja:hover {
-  transform: translateY(-2px);
-}
-
-/* Nombre de la caja */
-.caja h3 {
-  margin: 0;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-}
-
-/* Icono al inicio */
-.caja h3 svg, .caja h3 i {
-  margin-right: 8px;
-}
-
-/* Botones flotantes */
-.caja button {
-  border: none;
-  background: hsl(0, 0%, 100%);
-  color: white;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  font-size: 18px;
-  margin-left: 5px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  transition: background 0.2s;
-}
-
-.caja button:hover {
-  background: #0056b3;
-}
-
-/* Detalle de la caja */
-#detalleCaja {
-  background: white;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-/* Input de agregar objeto */
-#detalleCaja input {
-  padding: 8px;
-  width: calc(100% - 90px);
-  margin-right: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-/* Botón de agregar objeto */
-#detalleCaja button {
-  border-radius: 10px;
-  padding: 8px 12px;
-  background: #28a745;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-#detalleCaja button:hover {
-  background: #218838;
-}
-
-.buscar-caja {
-  display: flex;
-  justify-content: center; /* centra todo el bloque horizontalmente */
-  align-items: center;     /* centra verticalmente */
-  gap: 10px;               /* espacio entre input y botón */
-  margin: 20px auto;       /* margen arriba/abajo, auto centra horizontalmente */
-  max-width: 400px;        /* ancho máximo del bloque */
-}
-
-.buscar-caja input {
-  flex: 1;                 /* ocupa espacio disponible */
+<style>
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #ccc;
-  min-width: 0;            /* evita que se estire demasiado en flexbox */
 }
 
-.buscar-caja button {
+button {
   border: none;
-  background: #719ab3;
-  color: white;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   cursor: pointer;
-  font-size: 18px;
+  background: #007bff;
+  color: white;
+  transition: transform 0.2s, background 0.2s;
 }
-/* Contenedor de resultados */
-#resultadosBusqueda {
-  max-width: 400px;       /* ancho máximo consistente con inputs */
-  margin: 10px auto;      /* auto centra horizontalmente */
+
+button:hover {
+  transform: scale(1.1);
+  background: #0056b3;
+}
+
+.caja {
   background: white;
   padding: 15px;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-top: 10px;
+  border-radius: 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 10px;
 }
 
-/* Cada resultado individual */
-.resultado {
-  padding: 8px;
-  border-bottom: 1px solid #eee;
+/* Contenido ocupa todo el espacio disponible */
+.contenido {
+  flex: 1;
+  min-width: 0;
 }
 
-.resultado:last-child {
-  border-bottom: none;
+/* Evita que el texto empuje los botones */
+.contenido h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
+.caja.desempacada {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+/* Botones alineados correctamente */
+.botones {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0; /* 👈 CLAVE */
+}
+
+/* Tamaño consistente */
+.botones button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#detalleCaja {
+  margin-top: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  animation: slideUp 0.3s ease;
+}
+
+#detalleCaja button {
+  border-radius: 10px;
+  width: auto;
+  padding: 8px 12px;
+  margin-top: 5px;
+}
+
+#resultadosBusqueda {
+  margin-bottom: 10px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
