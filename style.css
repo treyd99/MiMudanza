@@ -1,25 +1,55 @@
-<style>
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  padding: 20px;
+}
+
+#app {
+  max-width: 480px;
+  margin: auto;
+}
+
+/* ================= INPUTS ================= */
+input {
+  flex: 1;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #ccc;
 }
 
+/* ================= BOTONES ================= */
 button {
   border: none;
   border-radius: 50%;
   width: 45px;
   height: 45px;
   cursor: pointer;
-  background: #007bff;
+  background: #d9b573;
   color: white;
   transition: transform 0.2s, background 0.2s;
 }
 
 button:hover {
   transform: scale(1.1);
-  background: #0056b3;
+  background: #62686f;
 }
 
+/* ================= CONTROLES ================= */
+.agregar-caja,
+.buscar-caja {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* ================= CAJAS ================= */
 .caja {
   background: white;
   padding: 15px;
@@ -31,19 +61,8 @@ button:hover {
   align-items: center;
 
   gap: 10px;
-}
 
-/* Contenido ocupa todo el espacio disponible */
-.contenido {
-  flex: 1;
-  min-width: 0;
-}
-
-/* Evita que el texto empuje los botones */
-.contenido h3 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  animation: fadeIn 0.3s ease;
 }
 
 .caja.desempacada {
@@ -51,14 +70,25 @@ button:hover {
   text-decoration: line-through;
 }
 
-/* Botones alineados correctamente */
+/* ================= CONTENIDO ================= */
+.contenido {
+  flex: 1;
+  min-width: 0;
+}
+
+.contenido h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ================= BOTONES DE CAJA ================= */
 .botones {
   display: flex;
   gap: 8px;
-  flex-shrink: 0; /* 👈 CLAVE */
+  flex-shrink: 0;
 }
 
-/* Tamaño consistente */
 .botones button {
   width: 40px;
   height: 40px;
@@ -66,6 +96,8 @@ button:hover {
   align-items: center;
   justify-content: center;
 }
+
+/* ================= DETALLE ================= */
 #detalleCaja {
   margin-top: 20px;
   background: white;
@@ -81,10 +113,12 @@ button:hover {
   margin-top: 5px;
 }
 
+/* ================= BUSQUEDA ================= */
 #resultadosBusqueda {
   margin-bottom: 10px;
 }
 
+/* ================= ANIMACIONES ================= */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -94,4 +128,3 @@ button:hover {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-</style>
